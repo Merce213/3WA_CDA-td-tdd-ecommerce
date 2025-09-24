@@ -26,6 +26,10 @@ class Cart {
 			.filter((item) => item.quantity > 0);
 	}
 
+	clear() {
+		this.items = [];
+	}
+
 	totals() {
 		const ht = this.items.reduce(
 			(acc, item) => acc + item.product.price * item.quantity,
