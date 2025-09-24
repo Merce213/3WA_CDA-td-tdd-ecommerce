@@ -11,6 +11,7 @@ export interface CartItem {
 }
 class Cart {
 	private items: CartItem[] = [];
+	private timer?: NodeJS.Timeout;
 
 	add(product: Product, quantity = 1) {
 		this.items.push({ product, quantity });
@@ -38,6 +39,11 @@ class Cart {
 		const tva = ht * 0.2;
 		const ttc = calculerTTC(ht);
 		return { ht, tva, ttc };
+	}
+
+	recalcDebounced(cb: () => void) {
+		clearTimeout(this.timer);
+		this.timer = setTimeout(cb, 200);
 	}
 
 	getItems() {

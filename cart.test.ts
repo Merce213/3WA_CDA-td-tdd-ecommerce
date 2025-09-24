@@ -2,6 +2,7 @@ import Cart from "./cart";
 
 describe("Cart", () => {
 	let cart: Cart;
+	jest.useFakeTimers();
 
 	beforeEach(() => {
 		cart = new Cart();
@@ -28,5 +29,15 @@ describe("Cart", () => {
 		expect(totals.ht).toBeCloseTo(200);
 		expect(totals.tva).toBeCloseTo(40);
 		expect(totals.ttc).toBeCloseTo(240);
+	});
+
+	it("recalcDebounced attend 200ms", () => {
+		const cb = jest.fn();
+		cart.recalcDebounced(cb);
+		jest.advanceTimersByTime(199);
+		expect(cb).not.toHaveBeenCalled();
+		jest.advanceTimersByTime(1);
+		expect(cb).toHaveBeenCalled();
+		jest.useRealTimers();
 	});
 });
